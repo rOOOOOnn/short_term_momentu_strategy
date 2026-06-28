@@ -5,3 +5,4 @@ __pycache__/
 screen_results/
 data/raw/
 data/processed/
+.tools/
