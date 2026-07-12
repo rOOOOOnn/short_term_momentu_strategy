@@ -1,0 +1,45 @@
+{
+  "signal_start": "04:00:00",
+  "signal_end": "09:30:00",
+  "path_start": "04:00:00",
+  "path_end": "09:30:00",
+  "entry_deadline": "09:30:00",
+  "forced_exit_time": "09:30:00",
+  "entry_slippage_bps": 25,
+  "exit_slippage_bps": 25,
+  "staged_entry_levels": [0.02, 0.03, 0.05],
+  "entry_weight_schemes": {
+    "equal": [0.33, 0.33, 0.34],
+    "back_weighted": [0.20, 0.30, 0.50]
+  },
+  "exit_templates": [
+    {
+      "name": "fixed_sl2_tp3",
+      "type": "fixed",
+      "stop_loss": 0.02,
+      "take_profit": 0.03
+    },
+    {
+      "name": "fixed_sl3_tp5",
+      "type": "fixed",
+      "stop_loss": 0.03,
+      "take_profit": 0.05
+    },
+    {
+      "name": "half_tp3_trail15_sl3",
+      "type": "half_tp_trailing",
+      "stop_loss": 0.03,
+      "take_profit": 0.03,
+      "trail": 0.015,
+      "take_profit_fraction": 0.5
+    },
+    {
+      "name": "half_tp5_trail2_sl5",
+      "type": "half_tp_trailing",
+      "stop_loss": 0.05,
+      "take_profit": 0.05,
+      "trail": 0.02,
+      "take_profit_fraction": 0.5
+    }
+  ]
+}
