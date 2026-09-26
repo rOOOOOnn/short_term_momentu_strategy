@@ -223,8 +223,9 @@ def main() -> None:
     risk_model.booster_.save_model(str(args.model_dir / "lightgbm_risk.txt"))
 
     ensure_dir(Path(args.report).parent)
+    report_title = config.get("report_title", "LightGBM Strategy Selector Baseline")
     report = [
-        "# LightGBM Strategy Selector Baseline",
+        f"# {report_title}",
         "",
         "## Setup",
         "",

@@ -21,6 +21,7 @@ from common import (
 
 DEFAULT_CONFIG = LAB_ROOT / "configs" / "strategy_grid.json"
 DEFAULT_CACHE_DIR = DEFAULT_TRIGGER_DIR / "raw_trade_cache"
+DEFAULT_CACHE_PATTERN = "taq_common_0400_0930_{date}.csv.gz"
 DEFAULT_OUTPUT = LAB_ROOT / "data" / "strategy_grid_results.csv"
 
 
@@ -41,8 +42,12 @@ class Position:
         return self.cost / self.units if self.units > 0 else np.nan
 
 
-def cache_path(cache_dir: Path, trade_date: pd.Timestamp) -> Path:
-    return cache_dir / f"taq_common_0400_0930_{trade_date.strftime('%Y%m%d')}.csv.gz"
+def cache_path(cache_dir: Path, cache_pattern: str, trade_date: pd.Timestamp) -> Path:
+    try:
+        filename = cache_pattern.format(date=trade_date.strftime("%Y%m%d"))
+    except KeyError as exc:
+        raise ValueError("--cache-pattern must contain the {date} placeholder.") from exc
+    return cache_dir / filename
 
 
 def make_strategy_templates(config: dict) -> list[dict[str, object]]:
@@ -337,6 +342,11 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Build realized returns for each event and strategy template.")
     parser.add_argument("--trigger-dir", type=Path, default=DEFAULT_TRIGGER_DIR)
     parser.add_argument("--cache-dir", type=Path, default=DEFAULT_CACHE_DIR)
+    parser.add_argument(
+        "--cache-pattern",
+        default=DEFAULT_CACHE_PATTERN,
+        help="Cache filename pattern. It must contain {date} in YYYYMMDD form.",
+    )
     parser.add_argument("--config", type=Path, default=DEFAULT_CONFIG)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--start-date", default=None)
@@ -362,7 +372,7 @@ def main() -> None:
     rows: list[dict[str, object]] = []
     for index, (trade_date, day_events) in enumerate(grouped, start=1):
         trade_date = pd.Timestamp(trade_date)
-        path = cache_path(args.cache_dir, trade_date)
+        path = cache_path(args.cache_dir, args.cache_pattern, trade_date)
         if not path.exists():
             print(f"[{index}/{len(grouped)}] missing cache {path.name}", flush=True)
             continue

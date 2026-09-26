@@ -40,8 +40,49 @@ python ml_strategy_lab\scripts\05_train_lightgbm.py
 ```
 
 Use `--max-dates` on the first two scripts for a quick smoke test. The optional
-`01_cache_taq_0400_1100.py` script is retained for future use if WRDS access is
-reactivated, but it is not part of this experiment.
+`01_cache_taq_0400_1100.py` script is retained for reproducibility, but it is
+not part of the original baseline experiment.
+
+## Intraday Extension
+
+The original baseline is intentionally unchanged and still exits no later than
+`09:30`. The resumed intraday experiment adds a separate `04:00-16:00` cache and
+configuration so that the published baseline remains reproducible.
+
+Cache the full event path from WRDS (the job is resumable and skips completed
+dates):
+
+```powershell
+python ml_strategy_lab\scripts\01_cache_taq_intraday.py
+```
+
+Build intraday strategy outcomes with entries allowed until `11:00` and a
+forced exit at `16:00`:
+
+```powershell
+python ml_strategy_lab\scripts\02_build_strategy_grid.py `
+  --cache-dir ml_strategy_lab\data\taq_0400_1600_cache `
+  --cache-pattern "taq_path_0400_1600_{date}.csv.gz" `
+  --config ml_strategy_lab\configs\strategy_grid_intraday.json `
+  --output ml_strategy_lab\data\strategy_grid_intraday_results.csv
+```
+
+After all cache dates are present, validate coverage and run the remaining
+grid, dataset, and model stages in one command:
+
+```powershell
+python ml_strategy_lab\scripts\06_run_intraday_pipeline.py
+```
+
+The final runner refuses to train on incomplete cache coverage unless
+`--allow-partial` is explicitly supplied for a smoke test.
+
+By default, the intraday cache keeps every price change plus each symbol's final
+trade. This preserves the exact simulated price path while avoiding repeated
+same-price prints. Pass `--all-trades` when trade-count or volume research needs
+every eligible record. Both modes retain exchange, sale-condition, and
+reporting-facility fields for later execution-quality filtering. Raw WRDS data
+and generated results remain excluded from version control.
 
 ## Outputs
 
