@@ -123,7 +123,7 @@ The ML workflow can use the existing local `04:00-09:30` TAQ cache. Use `--max-d
 
 ## Data Access
 
-CRSP and TAQ data are accessed through WRDS and cannot be redistributed in this repository. Local credentials may be supplied through an ignored `.env` file:
+The original research pipeline accessed CRSP and TAQ data through WRDS. These datasets cannot be redistributed in this repository. Local credentials may be supplied through an ignored `.env` file:
 
 ```text
 WRDS_USERNAME=...
