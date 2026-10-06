@@ -139,3 +139,5 @@ WRDS_PASSWORD=...
 - Develop explicit stop-loss, partial-profit, trailing-stop, and market-cap-based sizing rules.
 
 The detailed Chinese research report is available in [Markdown](docs/reports/premarket_strategy_summary/premarket_strategy_research_summary_zh.md) and [PDF](docs/reports/premarket_strategy_summary/premarket_strategy_research_summary_zh.pdf).
+
+The follow-up experiment using complete `04:00-16:00` WRDS TAQ paths, including its formula audit and negative out-of-sample result, is documented in the [intraday strategy selection report](docs/INTRADAY_STRATEGY_REPORT.md).

@@ -84,6 +84,10 @@ every eligible record. Both modes retain exchange, sale-condition, and
 reporting-facility fields for later execution-quality filtering. Raw WRDS data
 and generated results remain excluded from version control.
 
+The completed intraday experiment, formula audit, limitations, and
+out-of-sample results are summarized in
+[`../docs/INTRADAY_STRATEGY_REPORT.md`](../docs/INTRADAY_STRATEGY_REPORT.md).
+
 ## Outputs
 
 - `data/strategy_grid_results.csv`: realized return for every event and strategy template.

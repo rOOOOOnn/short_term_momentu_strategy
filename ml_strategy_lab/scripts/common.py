@@ -105,4 +105,6 @@ def read_cached_trades(path: str | Path) -> pd.DataFrame:
         ]
         if col in header
     ]
-    return prepare_trades(pd.read_csv(path, usecols=usecols, parse_dates=["date"]))
+    return prepare_trades(
+        pd.read_csv(path, usecols=usecols, parse_dates=["date"], low_memory=False)
+    )

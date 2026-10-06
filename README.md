@@ -139,3 +139,5 @@ WRDS_PASSWORD=...
 - 开发明确的止损、分批止盈、移动止损和按市值分配仓位的规则。
 
 详细中文研究报告提供 [Markdown](docs/reports/premarket_strategy_summary/premarket_strategy_research_summary_zh.md) 和 [PDF](docs/reports/premarket_strategy_summary/premarket_strategy_research_summary_zh.pdf) 两种格式。
+
+使用完整 `04:00-16:00` WRDS TAQ 路径的后续实验、公式审计与负面样本外结果见[日内策略选择报告](docs/INTRADAY_STRATEGY_REPORT.md)。
